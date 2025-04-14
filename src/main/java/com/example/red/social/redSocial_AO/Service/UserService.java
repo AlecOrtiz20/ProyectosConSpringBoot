@@ -34,12 +34,8 @@ public class UserService implements IServiceFollower, ICrudService<UserDTO, User
         this.repositoryFollower = repositoryFollower;
     }
 
-    public UserDTO createUser(UserDTO userSave){
-        User user = this.userMapper.toEntity(userSave);
-        this.userRepository.save(user);
 
-        return this.userMapper.toDTO(user);
-    }
+
 
     @Override
     public void FollowerUser(FollowerDTO followerDTO) {
@@ -74,23 +70,33 @@ public class UserService implements IServiceFollower, ICrudService<UserDTO, User
     }
 
     @Override
-    public UserDTO create(UserDTO userDTO, Long idUser) {
-        return null;
+    public UserDTO create(UserDTO userDTO) {
+        User user = this.userMapper.toEntity(userDTO);
+        this.userRepository.save(user);
+
+        return this.userMapper.toDTO(user);
     }
 
     @Override
     public void update(UserDTO userDTO) {
+        User userUpdate = findById(userDTO.getId());
 
+        userUpdate.setBio_usuario(userDTO.getBio_usuario());
+        userUpdate.setNombre(userDTO.getNombre());
+        userUpdate.setApellido(userDTO.getApellido());
+        this.userRepository.save(userUpdate);
     }
 
     @Override
     public void delete(Long id) {
-
+        User userDelete = findById(id);
+        this.userRepository.delete(userDelete);
     }
 
     @Override
     public Page<UserDTO> findAll(EstadoPost estadoPost, Pageable pageable) {
-        return null;
+        return this.userRepository.findAll(pageable)
+                .map(this.userMapper::toDTO);
     }
 
     @Override

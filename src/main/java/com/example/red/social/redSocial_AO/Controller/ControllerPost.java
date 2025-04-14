@@ -39,7 +39,7 @@ public class ControllerPost {
 
             User user = this.authService.getUserFromToken();
 
-            PostDTO postCreate = this.postService.create(postDTO, user.getId());
+            PostDTO postCreate = this.postService.create(postDTO, user);
 
             response.put("message: ", "Post Creado con exito");
             response.put("Post: ", postCreate );

@@ -47,12 +47,14 @@ public class PostService implements ICrudService<PostDTO, Post> {
 
 
     @Override
-    public PostDTO create(PostDTO postDTO, Long idUser) {
+    public PostDTO create(PostDTO postDTO){
+        throw  new UnsupportedOperationException("Use el otro metodo");
+    }
 
-        User userByPost = this.findByUserId(idUser);
+    public PostDTO create(PostDTO postDTO, User user){
 
         Post post = this.postMapper.toPostEntity(postDTO);
-        post.setUser(userByPost);
+        post.setUser(user);
         post.setFechaCreacion(new Date());
         post.setContenidoPost(postDTO.getContenidoPost());
         post.setLikesPost(0);
